@@ -25,11 +25,11 @@ else
     </div>
 }
 
-@if (!string.IsNullOrEmpty(txtResult))
-{
+@*if (!string.IsNullOrEmpty(txtResult))
+{*@
     <p>Result:</p>
     <pre>@txtResult</pre>
-}
+@*}*@
 
 @code
 {
@@ -73,15 +73,20 @@ else
 
     private async Task OnFileChange(InputFileChangeEventArgs e)
     {
+  
         var sb = new StringBuilder();
         string ffmpegExePath = @"C:\dotnet\ffmpeg\ffmpeg.exe"; // Путь к исполняемому файлу FFmpeg
 
         var file = e.File;
-
+        Debug.WriteLine("dsfdsfdsfdsfdsfs");
         // Save the file to the specified folder
         var trustedFileName = Path.GetRandomFileName();
-        //string saveFolderPath = @"C:\temp\1"; // Replace with the actual folder path
-        string tempFilePath = Path.Combine(trustedFileName, file.Name);
+        var trustedFileName2 = Path.GetTempFileName();
+        Debug.WriteLine("trustedFileName: " + trustedFileName);
+        Debug.WriteLine("trustedFileName2: " + trustedFileName2);
+        //string saveFolderPath = @"C:\temp\1";
+        string tempFilePath = Path.Combine(trustedFileName2, file.Name);
+        Debug.WriteLine("tempFilePath: " + tempFilePath);
         using (var fileStream = file.OpenReadStream())
         {
             using (var streamWriter = new FileStream(tempFilePath, FileMode.Create))
@@ -90,16 +95,17 @@ else
             }
         }
 
-
+        
         string filePath = tempFilePath; // путь к входному файлу
         string outputFilePath = tempFilePath + ".wav"; // путь к выходному файлу
 
         txtResult = tempFilePath;
-
+        Debug.WriteLine("txtResult: " + txtResult);
         StateHasChanged();
         System.Threading.Thread.Sleep(10000);
 
         // Создаем команду для FFmpeg
+        //###########################################################
         StringBuilder sbffmpeg = new StringBuilder();
         sbffmpeg.Append($"{ffmpegExePath} -i ");
         sbffmpeg.Append(filePath);
@@ -128,6 +134,7 @@ else
 
             process.WaitForExit();
         }
+        //###########################################################
         //ffmpeg finish
         using (var fileStream = File.OpenRead(outputFilePath))
         {

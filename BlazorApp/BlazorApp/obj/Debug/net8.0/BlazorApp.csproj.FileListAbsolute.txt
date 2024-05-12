@@ -88,3 +88,4 @@ C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp\bin\Debug\net8.0\ru\Micr
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp\obj\Debug\net8.0\BlazorApp.sourcelink.json

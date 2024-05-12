@@ -1053,3 +1053,4 @@ C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\obj\Debug\net8.0\
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\obj\Debug\net8.0\compressed\15cs2q8knl.gz
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\obj\Debug\net8.0\compressed\02n0c0que6.gz
 C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\obj\Debug\net8.0\compressed\lgpo5zqqv7.gz
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\obj\Debug\net8.0\BlazorApp.Client.sourcelink.json
