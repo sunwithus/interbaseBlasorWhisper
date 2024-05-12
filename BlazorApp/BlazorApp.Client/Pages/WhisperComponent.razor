@@ -1,0 +1,153 @@
+﻿@using System.Text
+@using Whisper.net
+@using Whisper.net.Ggml
+
+@using System;
+@using System.IO;
+@using System.Diagnostics;
+
+
+<h2>Whisper.net modelName: @ggmlmodelName</h2>
+
+Требования к аудиозаписи: wave-файл с частотой дискретизации 16 кГц
+
+@if (whisperProcessor == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <br />
+    <br />
+    <div class="text-center">
+        <p>Перенесите сюда или выберите файл для обработки</p>
+        <InputFile OnChange="@(async (f) => await OnFileChange(f))"> </InputFile>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(txtResult))
+{
+    <p>Result:</p>
+    <pre>@txtResult</pre>
+}
+
+@code
+{
+    private WhisperProcessor? whisperProcessor = null;
+    private static WhisperFactory? whisperFactory = null;
+    private string txtResult = string.Empty;
+    private string ggmlmodelName = "ggml-large-v3.bin";
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var modelName = ggmlmodelName;
+        var modelFilePath = $"D:/WhisperModel/{modelName}";
+        whisperFactory = WhisperFactory.FromPath(modelFilePath);
+
+        if (whisperFactory == null)
+        {
+
+            using var memoryStream = new MemoryStream();
+            var model = await WhisperGgmlDownloader.GetGgmlModelAsync(GgmlType.Tiny);
+            await model.CopyToAsync(memoryStream);
+
+            whisperFactory = WhisperFactory.FromBuffer(memoryStream.ToArray());
+        }
+
+        if (whisperProcessor == null)
+        {
+            whisperProcessor = whisperFactory.CreateBuilder()
+                                    .WithLanguage("ru") //en, ru...
+                                    .Build();
+            StateHasChanged();
+        }
+
+    }
+
+    private async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var sb = new StringBuilder();
+        string ffmpegExePath = @"C:\dotnet\ffmpeg\ffmpeg.exe"; // Путь к исполняемому файлу FFmpeg
+
+        var file = e.File;
+
+        // Save the file to the specified folder
+        var trustedFileName = Path.GetRandomFileName();
+        //string saveFolderPath = @"C:\temp\1"; // Replace with the actual folder path
+        string tempFilePath = Path.Combine(trustedFileName, file.Name);
+        using (var fileStream = file.OpenReadStream())
+        {
+            using (var streamWriter = new FileStream(tempFilePath, FileMode.Create))
+            {
+                fileStream.CopyTo(streamWriter);
+            }
+        }
+
+
+        string filePath = tempFilePath; // путь к входному файлу
+        string outputFilePath = tempFilePath + ".wav"; // путь к выходному файлу
+
+        txtResult = tempFilePath;
+
+        StateHasChanged();
+        System.Threading.Thread.Sleep(10000);
+
+        // Создаем команду для FFmpeg
+        StringBuilder sbffmpeg = new StringBuilder();
+        sbffmpeg.Append($"{ffmpegExePath} -i ");
+        sbffmpeg.Append(filePath);
+        sbffmpeg.Append(" -codec:a pcm_s16le -b:a 128k -ac 1 -ar 16000 "); // формат для Whisper
+        sbffmpeg.Append(outputFilePath);
+
+        // Запускаем FFmpeg с помощью команды
+        ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                UseShellExecute = false,
+                RedirectStandardInput = true,
+                CreateNoWindow = true
+            };
+
+        using (Process process = Process.Start(startInfo))
+        {
+            using (StreamWriter sw = process.StandardInput)
+            {
+                txtResult = sbffmpeg.ToString();
+
+                sw.WriteLine(sbffmpeg.ToString());
+                sw.WriteLine("exit");
+                sw.Flush();
+            }
+
+            process.WaitForExit();
+        }
+        //ffmpeg finish
+        using (var fileStream = File.OpenRead(outputFilePath))
+        {
+            // Теперь используйте fileStream для чтения из файла
+            txtResult = "";
+            await foreach (var result in whisperProcessor!.ProcessAsync(fileStream))
+            {
+                sb.AppendLine($"{result.Start}->{result.End}: {result.Text}");
+                txtResult = sb.ToString();
+                StateHasChanged();
+            }
+        }
+
+        /*using var fileReader = outputFilePath.OpenReadStream(5 * 1024 * 1024);
+        //using var fileReader = file.OpenReadStream(5 * 1024 * 1024);
+        await foreach (var result in whisperProcessor!.ProcessAsync(fileReader))
+        {
+            sb.AppendLine($"{result.Start}->{result.End}: {result.Text}");
+            txtResult = sb.ToString();
+            StateHasChanged();
+        }*/
+    }
+}

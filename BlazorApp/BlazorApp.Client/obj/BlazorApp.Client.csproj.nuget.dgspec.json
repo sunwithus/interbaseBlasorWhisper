@@ -1,0 +1,99 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {}
+  },
+  "projects": {
+    "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
+        "projectName": "BlazorApp.Client",
+        "projectPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
+        "packagesPath": "C:\\Users\\swu\\.nuget\\packages\\",
+        "outputPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\dotnet\\whisper.net-main\\NuGet.Config",
+          "C:\\Users\\swu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )",
+              "autoReferenced": true
+            },
+            "Whisper.net": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
+            "Whisper.net.Runtime": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "browser-wasm": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

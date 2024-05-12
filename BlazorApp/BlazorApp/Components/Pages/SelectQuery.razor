@@ -1,0 +1,139 @@
+﻿@page "/select-query"
+
+@using InterBaseSql.Data.InterBaseClient;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Mvc.RazorPages;
+@using System;
+@using System.Text;
+@using System.Collections.Generic;
+@using System.Data;
+@using System.IO;
+@using System.Threading.Tasks;
+
+@rendermode InteractiveServer
+
+<h3>SelectQuery</h3>
+<div class="text-center">
+    <h1>InterBase Connection Status</h1>
+
+    <div style="color:blue; font-weight:bold; font-size:20px; margin-bottom:20px;">
+        <p>@Message</p>
+    </div>
+
+    <!-- Fields for connection settings -->
+    <input @bind="ConnectionStringSettings.User" placeholder="User" />
+    <input @bind="ConnectionStringSettings.Password" placeholder="Password" />
+    <input @bind="ConnectionStringSettings.Database" placeholder="Database" />
+    <input @bind="ConnectionStringSettings.DataSource" placeholder="DataSource" />
+    <input @bind="ConnectionStringSettings.Port" placeholder="Port" />
+
+    <button @onclick="ConnectToDatabase">Connect to Database</button>
+    <br /><br /><br />
+    <button @onclick="ExecuteQueryCombined">Execute Query</button><br />
+    <input @bind="Query" style="background: light-grey; width:800px; height: 300px;" placeholder="Enter SQL Query" /><br />
+
+    <div style="background: light-grey; width:400px; height: 300px;">
+        @if (!string.IsNullOrEmpty(resultValue))
+        {
+            <div>
+                @((MarkupString)resultValue)
+            </div>
+        }
+    </div>
+
+</div>
+@code {
+    public class ConnectionStringSettingsModel
+    {
+        public string User { get; set; }
+        public string Password { get; set; }
+        public string Database { get; set; }
+        public string DataSource { get; set; }
+        public int Port { get; set; }
+    }
+
+    private ConnectionStringSettingsModel ConnectionStringSettings = new ConnectionStringSettingsModel
+        {
+            User = "SYSDBA",
+            Password = "masterkey",
+            Database = "c:\\dotnet\\db38.ibs",
+            DataSource = "localhost",
+            Port = 3050
+        };
+
+    [BindProperty]
+    public string Message { get; set; } = "Updated message";
+    public string resultValue = "";
+    public string Query { get; set; } = "SELECT S_INCKEY, S_DATETIME, S_DURATION, S_DEVICEID FROM SPR_SPEECH_TABLE";
+    public string QueryBlob { get; set; } = "SELECT S_INCKEY, S_FSPEECH, S_RECORDTYPE FROM SPR_SP_DATA_1_TABLE";
+
+    private IBConnection connection;
+
+    public async Task ConnectToDatabase()
+    {
+        string connectionString = $"User={ConnectionStringSettings.User};Password={ConnectionStringSettings.Password};Database={ConnectionStringSettings.Database};DataSource={ConnectionStringSettings.DataSource};Port={ConnectionStringSettings.Port}";
+
+        connection = new IBConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+            Message = "Connected to InterBase database successfully";
+        }
+        catch (Exception ex)
+        {
+            Message = $"Error connecting to database: {ex.Message}";
+        }
+    }
+
+    public async Task ExecuteQueryCombined()
+    {
+        if (connection == null || connection.State != ConnectionState.Open)
+        {
+            Message = "Please connect to the database first.";
+            return;
+        }
+
+        StringBuilder resultBuilder = new StringBuilder();
+
+        // Выполнение запроса для основной таблицы
+        using (var command = new IBCommand(Query, connection))
+        {
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    resultBuilder.AppendLine($"Device ID: {reader.GetString(reader.GetOrdinal("S_DEVICEID"))}");
+                    resultBuilder.AppendLine("<br />");
+                    resultBuilder.AppendLine($"Date Time: {reader.GetDateTime(reader.GetOrdinal("S_DATETIME"))}");
+                    resultBuilder.AppendLine("<br />");
+                }
+            }
+        }
+
+        // Добавление разделителя между результатами основной таблицы и таблицы с аудио файлами
+        resultBuilder.AppendLine("<br />------ Audio Files ------");
+
+        // Выполнение запроса для таблицы с аудио файлами
+        using (var command = new IBCommand(QueryBlob, connection))
+        {
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    byte[] audioData = (byte[])reader["S_FSPEECH"];
+
+                    // Генерация временного файла для хранения аудио данных
+                    string tempFilePath = Path.GetTempFileName()+".wav";
+                    File.WriteAllBytes(tempFilePath, audioData);
+                    //string tempFilePathWithDoubledSlashes = tempFilePath.Replace('\\', '/');
+
+                    // Формирование ссылки для воспроизведения аудио файла в браузере
+                    resultBuilder.AppendLine($"<audio controls><source src=\"{@tempFilePath}\" type=\"audio/wav\"></audio>");
+                }
+            }
+        }
+
+        resultValue = resultBuilder.ToString();
+    }
+}
