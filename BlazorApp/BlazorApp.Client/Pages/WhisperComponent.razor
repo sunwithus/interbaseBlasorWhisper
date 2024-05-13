@@ -8,8 +8,21 @@
 
 
 <h2>Whisper.net modelName: @ggmlmodelName</h2>
-
 Требования к аудиозаписи: wave-файл с частотой дискретизации 16 кГц
+<br />
+
+@* Добавление выпадающего списка для выбора языка 
+<select @onchange="ChangeLanguage">
+    <option value="ru">Русский</option>
+    <option value="en">Английский</option>
+</select>
+@* Добавление выпадающего списка для выбора модели Whisper
+<select @onchange="ChangeModel">
+    @foreach (var modelFile in Directory.GetFiles(@"D:/WhisperModel/"))
+    {
+        <option value="@modelFile">@Path.GetFileName(modelFile)</option>
+    }
+</select> *@
 
 @if (whisperProcessor == null)
 {
@@ -19,123 +32,157 @@ else
 {
     <br />
     <br />
-    <div class="text-center">
+    <div class="text-left">
         <p>Перенесите сюда или выберите файл для обработки</p>
         <InputFile OnChange="@(async (f) => await OnFileChange(f))"> </InputFile>
+        @*<br /><input type="file" @onchange="OnFileChange" />*@
     </div>
+    <br />
 }
 
 @if (!string.IsNullOrEmpty(txtResult))
 {
-    <p>Result:</p>
-    <pre>@txtResult</pre>
+    <p>Результат выполнения:</p>
+    <pre style="white-space: pre-wrap; background:#d8eaef;">@txtResult</pre>
 }
 
 @code
 {
+    private string selectedLanguage = "ru"; // Default language
+    private string selectedModel = "D:/WhisperModel/ggml-small.bin"; // Default whisper model
+
     private WhisperProcessor? whisperProcessor = null;
     private static WhisperFactory? whisperFactory = null;
     private string txtResult = string.Empty;
-    private string ggmlmodelName = "ggml-large-v3.bin";
+    private string ggmlmodelName = "ggml-small.bin";
+    private string path = @"C:\temp\1";
+    private string ffmpegExePath = @"C:\dotnet\ffmpeg\ffmpeg.exe"; // Путь к исполняемому файлу FFmpeg
+/*
+    // Метод для изменения выбранного языка
+    private void ChangeLanguage(ChangeEventArgs e)
+    {
+        selectedLanguage = e.Value.ToString();
+        UpdateWhisperProcessor();
+    }
 
+    // Метод для изменения выбранной модели Whisper
+    private void ChangeModel(ChangeEventArgs e)
+    {
+        selectedModel = e.Value.ToString();
+        UpdateWhisperProcessor();
+    }
 
+    // Метод для обновления Whisper Processor с новыми значениями языка и модели
+    private void UpdateWhisperProcessor()
+    {
+        whisperProcessor = null;
+        whisperFactory = WhisperFactory.FromPath(selectedModel);
+        if (whisperFactory == null)
+            {
+            using var memoryStream = new MemoryStream();
+            var model = await WhisperGgmlDownloader.GetGgmlModelAsync(GgmlType.Tiny);
+            await model.CopyToAsync(memoryStream);
+            whisperFactory = WhisperFactory.FromBuffer(memoryStream.ToArray());
+        }
+
+        whisperProcessor = whisperFactory.CreateBuilder()
+                                .WithLanguage(selectedLanguage)
+                                .Build();
+        StateHasChanged();
+    }
+    */
+    // Метод для очистки ресурсов Whisper после завершения
+    private void CleanupResources()
+    {
+        whisperProcessor?.Dispose();
+        whisperFactory?.Dispose();
+    }
+
+    private void CleanupTempFiles()
+    {
+        Directory.Delete(path, true);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
         {
+            //CleanupResources();
+            //whisperProcessor = null;
+            //whisperFactory = null;
+            //StateHasChanged();
             return;
         }
 
-        //var modelName = "ggml-large-v3.bin";
         string modelName = ggmlmodelName;
-        var modelFilePath = $"D:/WhisperModel/{modelName}";
+
+        var modelFilePath = selectedModel; //$"D:/WhisperModel/{modelName}";
         whisperFactory = WhisperFactory.FromPath(modelFilePath);
 
         if (whisperFactory == null)
         {
-
             using var memoryStream = new MemoryStream();
             var model = await WhisperGgmlDownloader.GetGgmlModelAsync(GgmlType.Tiny);
             await model.CopyToAsync(memoryStream);
-
             whisperFactory = WhisperFactory.FromBuffer(memoryStream.ToArray());
         }
 
         if (whisperProcessor == null)
         {
             whisperProcessor = whisperFactory.CreateBuilder()
-                                    .WithLanguage("ru") //en, ru...
+                                    .WithLanguage(selectedLanguage) //en, ru...
                                     .Build();
             StateHasChanged();
         }
-
     }
 
     private async Task OnFileChange(InputFileChangeEventArgs e)
     {
-
-        var sb = new StringBuilder();
-        string ffmpegExePath = @"C:\dotnet\ffmpeg\ffmpeg.exe"; // Путь к исполняемому файлу FFmpeg
-
         var file = e.File;
-
-        // Save the file to the specified folder
-        string path = @"C:\temp\1";
+        // Create the directory if it doesn't exist. Generate a file name
         DirectoryInfo dirInfo = new DirectoryInfo(path);
         if (!dirInfo.Exists)
         {
             dirInfo.Create();
         }
-
         var trustedFileName = Path.GetRandomFileName();
         var trustedFilePath = Path.Combine(path, trustedFileName);
-        Debug.WriteLine("trustedFileName: " + trustedFileName);
-        Debug.WriteLine("trustedFilePath: " + trustedFilePath);
-        /*
-        // работатет с файлами небольшого объема
-        await using (var fileStream = file.OpenReadStream())
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                await fileStream.CopyToAsync(memoryStream);
-                File.WriteAllBytes(trustedFilePath, memoryStream.ToArray());
-            }
-        }
-        // или такой вариант
-        await using (var fileStream = file.OpenReadStream())
-        {
-            using (var fileOutput = new FileStream(trustedFilePath, FileMode.Create))
-            {
-                await fileStream.CopyToAsync(fileOutput);
-            }
-        }
-        */
-        using (var fileStream = file.OpenReadStream())
-        {
-            using (var fileOutput = new FileStream(trustedFilePath, FileMode.Create))
-            {
-                byte[] buffer = new byte[8192]; // Размер буфера для копирования порциями
 
-                int bytesRead;
-                while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+        // Save the file to the specified folder
+        if (file != null)
+        {
+            try
+            {
+                long maxallowedsize = 1024 * 1024 * 128; // 128 MB
+                using (var fileStream = file.OpenReadStream(maxallowedsize))
                 {
-                    await fileOutput.WriteAsync(buffer, 0, bytesRead);
+                    using (var fileOutput = new FileStream(trustedFilePath, FileMode.Create))
+                    {
+                        byte[] buffer = new byte[8192]; // Buffer size for copying in chunks
+
+                        int bytesRead;
+                        while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileOutput.WriteAsync(buffer, 0, bytesRead);
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                // Handle the exception appropriately, e.g., log the error or display an error message
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
+        Debug.WriteLine("Success to save file!");
 
-        Debug.WriteLine("Success!!!");
-
-        string tempFilePath = trustedFilePath;
-
-        string filePath = tempFilePath; // путь к входному файлу
-        string outputFilePath = tempFilePath + ".wav"; // путь к выходному файлу
-
+        string filePath = trustedFilePath; // путь к входному файлу
+        string outputFilePath = trustedFilePath + ".wav"; // путь к выходному файлу
         txtResult = "файл скопирован, пожалуйста подождите...";
         StateHasChanged();
         System.Threading.Thread.Sleep(2000);
-        // Создаем команду для FFmpeg
+
+        // Create the command string for FFmpeg
         //###########################################################
         StringBuilder sbffmpeg = new StringBuilder();
         sbffmpeg.Append($"{ffmpegExePath} -i ");
@@ -143,7 +190,7 @@ else
         sbffmpeg.Append(" -codec:a pcm_s16le -b:a 128k -ac 1 -ar 16000 "); // формат для Whisper
         sbffmpeg.Append(outputFilePath);
 
-        // Запускаем FFmpeg с помощью команды
+        // Run FFmpeg with cmd.exe
         ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
@@ -157,22 +204,21 @@ else
             using (StreamWriter sw = process.StandardInput)
             {
                 txtResult = sbffmpeg.ToString();
-
                 sw.WriteLine(sbffmpeg.ToString());
                 sw.WriteLine("exit");
                 sw.Flush();
             }
-
             process.WaitForExit();
         }
+        //###########################################################
+        Debug.WriteLine("Success to convert file!");
         txtResult = "конвертирование файла заперешено, передаю данные в Whisper, пожалуйста подождите...";
         StateHasChanged();
         System.Threading.Thread.Sleep(3000);
-        //###########################################################
-        //ffmpeg finish
+
+        var sb = new StringBuilder();
         using (var fileStream = File.OpenRead(outputFilePath))
         {
-            // Теперь fileStream для чтения из файла
             txtResult = "";
             await foreach (var result in whisperProcessor!.ProcessAsync(fileStream))
             {
@@ -181,14 +227,12 @@ else
                 StateHasChanged();
             }
         }
-
-        /*using var fileReader = outputFilePath.OpenReadStream(5 * 1024 * 1024);
-        //using var fileReader = file.OpenReadStream(5 * 1024 * 1024);
-        await foreach (var result in whisperProcessor!.ProcessAsync(fileReader))
-        {
-            sb.AppendLine($"{result.Start}->{result.End}: {result.Text}");
-            txtResult = sb.ToString();
-            StateHasChanged();
-        }*/
+        Debug.WriteLine("Success to make text with Whisper!");
+        CleanupTempFiles();
+        CleanupResources();
+        sb.AppendLine("---------------------------");
+        sb.AppendLine("Преобразование завершено! Благодарим за использование.");
+        txtResult = sb.ToString();
+        StateHasChanged();
     }
 }

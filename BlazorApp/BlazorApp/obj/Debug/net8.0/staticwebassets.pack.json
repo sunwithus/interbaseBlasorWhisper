@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp.bundle.scp.css",
+      "Id": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp.bundle.scp.css",
       "PackagePath": "staticwebassets\\BlazorApp.bundle.scp.css"
     },
     {
-      "Id": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\wwwroot\\app.css",
+      "Id": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\wwwroot\\favicon.png",
+      "Id": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {

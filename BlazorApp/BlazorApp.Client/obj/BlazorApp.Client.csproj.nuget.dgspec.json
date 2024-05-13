@@ -1,32 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {}
+    "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {}
   },
   "projects": {
-    "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {
+    "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
+        "projectUniqueName": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
         "projectName": "BlazorApp.Client",
-        "projectPath": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
-        "packagesPath": "C:\\Users\\Gansor\\.nuget\\packages\\",
-        "outputPath": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\obj\\",
+        "projectPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj",
+        "packagesPath": "C:\\Users\\swu\\.nuget\\packages\\",
+        "outputPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Gansor\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\dotnet\\whisper.net-main\\NuGet.Config",
+          "C:\\Users\\swu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -57,13 +52,13 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.3, )",
+              "version": "[8.0.4, )",
               "autoReferenced": true
             },
             "Microsoft.NET.Sdk.WebAssembly.Pack": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.3, )",
+              "version": "[8.0.4, )",
               "autoReferenced": true
             },
             "Whisper.net": {
@@ -91,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

@@ -5,6 +5,11 @@ using BlazorApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddServerSideBlazor(options =>
+{
+    options.DetailedErrors = true;
+});
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()

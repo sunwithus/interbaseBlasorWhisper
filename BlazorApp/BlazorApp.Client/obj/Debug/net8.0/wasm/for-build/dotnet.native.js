@@ -6793,7 +6793,7 @@ ERRNO_CODES = {
       'EOWNERDEAD': 62,
       'ESTRPIPE': 135,
     };;
-DOTNET.setup({ linkerDisableLegacyJsInterop: false,linkerWasmEnableSIMD: true,linkerWasmEnableEH: true,linkerEnableAotProfiler: false, linkerEnableBrowserProfiler: false, gitHash: "9f4b1f5d664afdfc80e1508ab7ed099dff210fbd", });;
+DOTNET.setup({ linkerDisableLegacyJsInterop: false,linkerWasmEnableSIMD: true,linkerWasmEnableEH: true,linkerEnableAotProfiler: false, linkerEnableBrowserProfiler: false, gitHash: "2d7eea252964e69be94cb9c847b371b23e4dd470", });;
 // include: base64Utils.js
 // Copied from https://github.com/strophe/strophejs/blob/e06d027/src/polyfills.js#L149
 
