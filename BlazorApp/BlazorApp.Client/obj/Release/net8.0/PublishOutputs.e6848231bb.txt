@@ -1,0 +1,13 @@
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/win-arm/whisper.dll
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/win-arm64/whisper.dll
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/win-x64/whisper.dll
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/win-x86/whisper.dll
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/macos-x64/libwhisper.dylib
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/macos-arm64/ggml-metal.metal
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/macos-arm64/libwhisper.dylib
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/linux-arm64/libwhisper.so
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/linux-x64/libwhisper.so
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\runtimes/linux-arm/libwhisper.so
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\browser-wasm/whisper.a
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\ggml-metal.metal
+C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\bin\Release\net8.0\publish\web.config
