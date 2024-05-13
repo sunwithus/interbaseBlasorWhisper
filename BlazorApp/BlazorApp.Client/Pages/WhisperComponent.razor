@@ -25,11 +25,11 @@ else
     </div>
 }
 
-@*if (!string.IsNullOrEmpty(txtResult))
-{*@
+@if (!string.IsNullOrEmpty(txtResult))
+{
     <p>Result:</p>
     <pre>@txtResult</pre>
-@*}*@
+}
 
 @code
 {
@@ -47,7 +47,8 @@ else
             return;
         }
 
-        var modelName = ggmlmodelName;
+        //var modelName = "ggml-large-v3.bin";
+        string modelName = ggmlmodelName;
         var modelFilePath = $"D:/WhisperModel/{modelName}";
         whisperFactory = WhisperFactory.FromPath(modelFilePath);
 
@@ -73,37 +74,67 @@ else
 
     private async Task OnFileChange(InputFileChangeEventArgs e)
     {
-  
+
         var sb = new StringBuilder();
         string ffmpegExePath = @"C:\dotnet\ffmpeg\ffmpeg.exe"; // Путь к исполняемому файлу FFmpeg
 
         var file = e.File;
-        Debug.WriteLine("dsfdsfdsfdsfdsfs");
+
         // Save the file to the specified folder
+        string path = @"C:\temp\1";
+        DirectoryInfo dirInfo = new DirectoryInfo(path);
+        if (!dirInfo.Exists)
+        {
+            dirInfo.Create();
+        }
+
         var trustedFileName = Path.GetRandomFileName();
-        var trustedFileName2 = Path.GetTempFileName();
+        var trustedFilePath = Path.Combine(path, trustedFileName);
         Debug.WriteLine("trustedFileName: " + trustedFileName);
-        Debug.WriteLine("trustedFileName2: " + trustedFileName2);
-        //string saveFolderPath = @"C:\temp\1";
-        string tempFilePath = Path.Combine(trustedFileName2, file.Name);
-        Debug.WriteLine("tempFilePath: " + tempFilePath);
+        Debug.WriteLine("trustedFilePath: " + trustedFilePath);
+        /*
+        // работатет с файлами небольшого объема
+        await using (var fileStream = file.OpenReadStream())
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await fileStream.CopyToAsync(memoryStream);
+                File.WriteAllBytes(trustedFilePath, memoryStream.ToArray());
+            }
+        }
+        // или такой вариант
+        await using (var fileStream = file.OpenReadStream())
+        {
+            using (var fileOutput = new FileStream(trustedFilePath, FileMode.Create))
+            {
+                await fileStream.CopyToAsync(fileOutput);
+            }
+        }
+        */
         using (var fileStream = file.OpenReadStream())
         {
-            using (var streamWriter = new FileStream(tempFilePath, FileMode.Create))
+            using (var fileOutput = new FileStream(trustedFilePath, FileMode.Create))
             {
-                fileStream.CopyTo(streamWriter);
+                byte[] buffer = new byte[8192]; // Размер буфера для копирования порциями
+
+                int bytesRead;
+                while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                {
+                    await fileOutput.WriteAsync(buffer, 0, bytesRead);
+                }
             }
         }
 
-        
+        Debug.WriteLine("Success!!!");
+
+        string tempFilePath = trustedFilePath;
+
         string filePath = tempFilePath; // путь к входному файлу
         string outputFilePath = tempFilePath + ".wav"; // путь к выходному файлу
 
-        txtResult = tempFilePath;
-        Debug.WriteLine("txtResult: " + txtResult);
+        txtResult = "файл скопирован, пожалуйста подождите...";
         StateHasChanged();
-        System.Threading.Thread.Sleep(10000);
-
+        System.Threading.Thread.Sleep(2000);
         // Создаем команду для FFmpeg
         //###########################################################
         StringBuilder sbffmpeg = new StringBuilder();
@@ -134,11 +165,14 @@ else
 
             process.WaitForExit();
         }
+        txtResult = "конвертирование файла заперешено, передаю данные в Whisper, пожалуйста подождите...";
+        StateHasChanged();
+        System.Threading.Thread.Sleep(3000);
         //###########################################################
         //ffmpeg finish
         using (var fileStream = File.OpenRead(outputFilePath))
         {
-            // Теперь используйте fileStream для чтения из файла
+            // Теперь fileStream для чтения из файла
             txtResult = "";
             await foreach (var result in whisperProcessor!.ProcessAsync(fileStream))
             {

@@ -13,27 +13,27 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = BlazorApp.Client
 build_property.RootNamespace = BlazorApp.Client
-build_property.ProjectDir = C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client\
+build_property.ProjectDir = C:\dotnet\interbaseBlasorWhisper\BlazorApp\BlazorApp.Client\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = false
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\dotnet\whisper.net-main\examples\BlazorApp\BlazorApp.Client
+build_property.MSBuildProjectDirectory = C:\dotnet\interbaseBlasorWhisper\BlazorApp\BlazorApp.Client
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/dotnet/whisper.net-main/examples/BlazorApp/BlazorApp.Client/Pages/WhisperComponent.razor]
+[C:/dotnet/interbaseBlasorWhisper/BlazorApp/BlazorApp.Client/Pages/WhisperComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2hpc3BlckNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dotnet/whisper.net-main/examples/BlazorApp/BlazorApp.Client/Pages/WhisperInteractiveAuto.razor]
+[C:/dotnet/interbaseBlasorWhisper/BlazorApp/BlazorApp.Client/Pages/WhisperInteractiveAuto.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2hpc3BlckludGVyYWN0aXZlQXV0by5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dotnet/whisper.net-main/examples/BlazorApp/BlazorApp.Client/Pages/WhisperWasm.razor]
+[C:/dotnet/interbaseBlasorWhisper/BlazorApp/BlazorApp.Client/Pages/WhisperWasm.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2hpc3Blcldhc20ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dotnet/whisper.net-main/examples/BlazorApp/BlazorApp.Client/_Imports.razor]
+[C:/dotnet/interbaseBlasorWhisper/BlazorApp/BlazorApp.Client/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

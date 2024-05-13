@@ -2513,34 +2513,40 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\swu\\.nuget\\packages\\": {}
+    "C:\\Users\\Gansor\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
+      "projectUniqueName": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
       "projectName": "BlazorApp",
-      "projectPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
-      "packagesPath": "C:\\Users\\swu\\.nuget\\packages\\",
-      "outputPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp\\obj\\",
+      "projectPath": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
+      "packagesPath": "C:\\Users\\Gansor\\.nuget\\packages\\",
+      "outputPath": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\dotnet\\whisper.net-main\\NuGet.Config",
-        "C:\\Users\\swu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Gansor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {
-              "projectPath": "C:\\dotnet\\whisper.net-main\\examples\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj"
+            "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj": {
+              "projectPath": "C:\\dotnet\\interbaseBlasorWhisper\\BlazorApp\\BlazorApp.Client\\BlazorApp.Client.csproj"
             }
           }
         }
@@ -2596,7 +2602,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
